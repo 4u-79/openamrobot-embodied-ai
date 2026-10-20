@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/openAMRobot/openamrobot-embodied-ai/schemas/dataset_registry.schema.json",
+  "title": "OpenAMRobot embodied AI dataset release",
+  "description": "One dataset release in datasets/registry.yaml. Describes a released dataset, not an episode. The data lives outside Git at storage_uri; Git holds only this entry with its commits and sha256.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dataset_id",
+    "c9_schema_ref",
+    "robot_config",
+    "platform_sw_commit",
+    "upperbody_sw_commit",
+    "interfaces_commit",
+    "bom_issue",
+    "capture_date",
+    "episodes",
+    "storage_uri",
+    "sha256",
+    "quality_status"
+  ],
+  "properties": {
+    "dataset_id": {
+      "description": "Unique, stable identifier of the dataset release.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "c9_schema_ref": {
+      "description": "C9 schema the episodes follow, as <owner>/<repository>/<path>@<40 hex commit SHA>.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/[^@\\s]+@[0-9a-f]{40}$"
+    },
+    "robot_config": {
+      "description": "Robot configuration name used during capture.",
+      "type": "string",
+      "minLength": 1
+    },
+    "platform_sw_commit": {
+      "description": "openamr-platform-sw commit used during capture.",
+      "$ref": "#/$defs/commit_sha"
+    },
+    "upperbody_sw_commit": {
+      "description": "openamr-upperbody-sw commit used during capture.",
+      "$ref": "#/$defs/commit_sha"
+    },
+    "interfaces_commit": {
+      "description": "openamrobot-interfaces commit used during capture.",
+      "$ref": "#/$defs/commit_sha"
+    },
+    "bom_issue": {
+      "description": "Issue that records the hardware build, as <owner>/<repository>#<number>. BOM values are not stored here.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+$"
+    },
+    "capture_date": {
+      "description": "Capture date, YYYY-MM-DD.",
+      "type": "string",
+      "format": "date",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "episodes": {
+      "description": "Number of episodes in the release.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "storage_uri": {
+      "description": "Location of the dataset outside Git.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9+.-]*://\\S+$"
+    },
+    "sha256": {
+      "description": "sha256 of the released dataset archive or manifest, 64 lowercase hex characters.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "quality_status": {
+      "description": "C10 dataset QA result.",
+      "enum": ["pending", "passed", "failed"]
+    }
+  },
+  "$defs": {
+    "commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    }
+  }
+}

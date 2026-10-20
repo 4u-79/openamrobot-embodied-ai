@@ -1,0 +1,7 @@
+# Provenance pins for the recorder skeleton.
+# capture_topics is intentionally not set: it stays an empty list until the C9 capture topic
+# contract in openamrobot-interfaces is approved.
+openamrobot_ai_recorder:
+  ros__parameters:
+    interfaces_commit: "87ab8a936c97ab55ee74b8988ca3d7659160ea6a"
+    c9_schema_ref: "openAMRobot/openamrobot-interfaces/schemas/json/c9-lerobot-dataset.schema.json@87ab8a936c97ab55ee74b8988ca3d7659160ea6a"

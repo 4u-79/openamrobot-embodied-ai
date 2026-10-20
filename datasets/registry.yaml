@@ -1,0 +1,21 @@
+# Dataset release registry. Validate with: oa-dataset-qa datasets/registry.yaml
+#
+# Each entry describes one dataset release and follows schemas/dataset_registry.schema.json.
+# Datasets and model weights live outside Git; this file holds only release entries with their
+# commits and sha256. Quote commit SHAs and sha256 values so YAML keeps them as strings.
+#
+# Example entry (illustrative values, not a real release):
+#
+# - dataset_id: example-pick-place-v0
+#   c9_schema_ref: "openAMRobot/openamrobot-interfaces/schemas/json/c9-lerobot-dataset.schema.json@87ab8a936c97ab55ee74b8988ca3d7659160ea6a"
+#   robot_config: example-config
+#   platform_sw_commit: "0000000000000000000000000000000000000000"
+#   upperbody_sw_commit: "0000000000000000000000000000000000000000"
+#   interfaces_commit: "87ab8a936c97ab55ee74b8988ca3d7659160ea6a"
+#   bom_issue: openAMRobot/example-repository#1
+#   capture_date: 2026-01-01
+#   episodes: 1
+#   storage_uri: s3://example-bucket/example-pick-place-v0
+#   sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+#   quality_status: pending
+[]

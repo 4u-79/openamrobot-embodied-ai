@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>openamrobot_ai_recorder</name>
+  <version>0.0.0</version>
+  <description>
+    Episode recorder skeleton for OpenAMRobot embodied AI. Recording stays disabled until the
+    C9 capture topic contract in openamrobot-interfaces is approved; the node writes no data.
+  </description>
+
+  <maintainer email="info@botshare.ai">Botshare LTD</maintainer>
+  <license>MIT</license>
+
+  <exec_depend>rclpy</exec_depend>
+
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

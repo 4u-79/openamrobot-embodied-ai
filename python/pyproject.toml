@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oa_embodied_ai"
+version = "0.0.0"
+description = "OpenAMRobot embodied AI tooling: dataset QA (C10); conversion, training and evaluation are planned"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Botshare LTD", email = "info@botshare.ai" }]
+requires-python = ">=3.10"
+dependencies = [
+    "PyYAML",
+    "jsonschema",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+oa-dataset-qa = "oa_embodied_ai.dataset_qa.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["oa_embodied_ai*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
