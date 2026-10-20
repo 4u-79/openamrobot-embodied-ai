@@ -59,7 +59,7 @@ Datasets and model weights live outside Git. Git holds only registry entries in 
 The policy runner:
 
 - publishes only through approved command inputs: a `geometry_msgs/Twist` on the topic set by `cmd_vel_topic`, intended as a `twist_mux` input. The topic has no default, so it never points at the motor driver by default. Arm output is not implemented and `arm_output_enabled=true` is refused.
-- refuses motion activation without the approved software stop interface. Its topic, type and asserted field are parameters with no default; when they are unset or the topic has no publisher, activation fails.
+- refuses motion activation without the approved software stop interface. Its topic, type and asserted field are parameters with no default; when they are unset, the topic has no publisher, or no stop status has been received yet, activation fails.
 - stops on stale observations (`observation_timeout_s`, default 0.2), inference failure or software stop, by publishing a zero Twist and deactivating.
 - never downloads model weights at runtime.
 

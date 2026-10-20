@@ -27,8 +27,9 @@ The software stop interface is being defined in `openamr-platform-sw` PR #35. Th
 does not define a replacement. The policy runner takes the stop topic
 (`software_stop_topic`), message type (`software_stop_type`) and the boolean field that means
 "stop asserted" (`software_stop_asserted_field`) as parameters with no default. It refuses motion
-activation when any of them is unset, when the type cannot be resolved, or when the topic has
-no publisher of that type. While active, it publishes a zero Twist and deactivates when the stop
+activation when any of them is unset, when the type cannot be resolved, when the topic has
+no publisher of that type, or when no stop status has been received yet (unknown counts as not
+clear, so a latched stop published before the runner started cannot be missed). While active, it publishes a zero Twist and deactivates when the stop
 is asserted or its publisher disappears.
 
 ### Arm command arbitration (openamrobot-manipulation)

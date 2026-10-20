@@ -43,7 +43,8 @@ class PolicyRunnerNode(LifecycleNode):
         self.policy = policy if policy is not None else NoPolicy()
         self.motion_active = False
         self.last_stop_reason = None
-        self.software_stop_asserted = False
+        # None until the first stop status arrives: unknown counts as not clear (fail closed).
+        self.software_stop_asserted = None
 
         self._cmd_pub = None
         self._stop_sub = None
@@ -189,6 +190,8 @@ class PolicyRunnerNode(LifecycleNode):
         if not self._software_stop_available():
             return [f'software stop topic {self._stop_sub.topic_name} has no '
                     f'{self._stop_type} publisher']
+        if self.software_stop_asserted is None:
+            return ['no software stop status received yet']
         if self.software_stop_asserted:
             return ['software stop is asserted']
         return []
@@ -225,6 +228,7 @@ class PolicyRunnerNode(LifecycleNode):
         if self._cmd_pub is not None:
             self.destroy_publisher(self._cmd_pub)
         self._cmd_pub = self._stop_sub = self._obs_sub = self._timer = None
+        self.software_stop_asserted = None
         self._stop_type = self._stop_field = None
         self.software_stop_asserted = False
 

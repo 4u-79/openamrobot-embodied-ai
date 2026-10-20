@@ -3,7 +3,7 @@ dataset_id: fixture-missing-fields-v0
 robot_config: fixture-config
 platform_sw_commit: "1111111111111111111111111111111111111111"
 upperbody_sw_commit: "2222222222222222222222222222222222222222"
-bom_issue: openAMRobot/example-repository#1
+bom_issue: "7.10"
 capture_date: 2026-01-01
 episodes: 3
 storage_uri: s3://example-bucket/fixture-missing-fields-v0

@@ -30,7 +30,7 @@ OBS_PARAMS = {
 class Harness:
     """Runner plus a helper node that publishes the test stop topic and records Twist output."""
 
-    def __init__(self, context, params, publish_stop=True):
+    def __init__(self, context, params, publish_stop=True, send_stop_status=True):
         overrides = [Parameter(name, value=value) for name, value in params.items()]
         self.runner = PolicyRunnerNode(context=context, parameter_overrides=overrides)
         self.helper = Node('policy_runner_test_helper', context=context)
@@ -40,7 +40,7 @@ class Harness:
             else None
         self.obs_pub = self.helper.create_publisher(Header, OBS_TOPIC, 10)
         self.stop_asserted = False
-        if self.stop_pub is not None:
+        if self.stop_pub is not None and send_stop_status:
             self.helper.create_timer(0.05, self._publish_stop)
         self.executor = SingleThreadedExecutor(context=context)
         self.executor.add_node(self.runner)
@@ -81,8 +81,8 @@ class Harness:
 def make_harness(context):
     harnesses = []
 
-    def factory(params, publish_stop=True):
-        harness = Harness(context, params, publish_stop)
+    def factory(params, publish_stop=True, send_stop_status=True):
+        harness = Harness(context, params, publish_stop, send_stop_status)
         harnesses.append(harness)
         return harness
 
@@ -122,6 +122,14 @@ def test_refuses_activation_when_stop_topic_unavailable(make_harness):
     harness.spin_for(0.5)
     assert harness.runner.trigger_activate() == TransitionCallbackReturn.FAILURE
     assert harness.runner.motion_active is False
+
+
+def test_refuses_activation_before_first_stop_status(make_harness):
+    harness = make_harness({'cmd_vel_topic': CMD_VEL, **STOP_PARAMS, **OBS_PARAMS},
+                           send_stop_status=False)
+    assert harness.configure_and_activate() == TransitionCallbackReturn.FAILURE
+    assert harness.runner.motion_active is False
+    assert harness.twists == []
 
 
 def test_refuses_activation_while_stop_asserted(make_harness):
