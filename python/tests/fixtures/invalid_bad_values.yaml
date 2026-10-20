@@ -1,0 +1,14 @@
+# Tiny synthetic fixture: a registry list whose entry has bad values.
+# sha256 is not 64 hex, episodes is 0, c9_schema_ref has no commit SHA, quality_status unknown.
+- dataset_id: fixture-bad-values-v0
+  c9_schema_ref: "openAMRobot/openamrobot-interfaces/schemas/json/c9-lerobot-dataset.schema.json@main"
+  robot_config: fixture-config
+  platform_sw_commit: "1111111111111111111111111111111111111111"
+  upperbody_sw_commit: "2222222222222222222222222222222222222222"
+  interfaces_commit: "87ab8a936c97ab55ee74b8988ca3d7659160ea6a"
+  bom_issue: "7.10"
+  capture_date: 2026-01-01
+  episodes: 0
+  storage_uri: s3://example-bucket/fixture-bad-values-v0
+  sha256: "not-a-sha256"
+  quality_status: approved

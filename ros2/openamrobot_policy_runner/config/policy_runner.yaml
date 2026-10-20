@@ -1,0 +1,16 @@
+# Example parameters for the policy runner skeleton.
+#
+# cmd_vel_topic must name an approved twist_mux input in openamr-platform-sw. It has no default
+# and must never point at the motor driver.
+#
+# software_stop_topic, software_stop_type and software_stop_asserted_field are intentionally
+# left unset: the software stop interface is still being defined in openamr-platform-sw PR #35.
+# With them unset the runner refuses motion activation.
+#
+# observation_topic and observation_type are left unset: the C9 capture topics are pending
+# approval in openamrobot-interfaces.
+policy_runner:
+  ros__parameters:
+    arm_output_enabled: false
+    observation_timeout_s: 0.2
+    watchdog_period_s: 0.05

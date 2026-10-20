@@ -1,0 +1,85 @@
+name: ROS 2 Jazzy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  # openamrobot-interfaces is pinned to an explicit commit, never its moving main branch.
+  INTERFACES_REPOSITORY: openAMRobot/openamrobot-interfaces
+  INTERFACES_COMMIT: 87ab8a936c97ab55ee74b8988ca3d7659160ea6a
+
+jobs:
+  ros2:
+    name: quality/ros2
+    runs-on: ubuntu-24.04
+    container: ros:jazzy-ros-base
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out openamrobot-interfaces at the pinned commit
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.INTERFACES_REPOSITORY }}
+          ref: ${{ env.INTERFACES_COMMIT }}
+          path: external/openamrobot-interfaces
+
+      - name: Verify the pinned commit
+        run: |
+          set -eo pipefail
+          git config --global --add safe.directory "$GITHUB_WORKSPACE/external/openamrobot-interfaces"
+          test "$(git -C external/openamrobot-interfaces rev-parse HEAD)" = "$INTERFACES_COMMIT"
+
+      - name: Resolve ROS dependencies
+        run: |
+          set -eo pipefail
+          source /opt/ros/jazzy/setup.bash
+          apt-get update
+          apt-get install -y --no-install-recommends python3-colcon-common-extensions python3-rosdep python3-pytest
+          if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
+            rosdep init
+          fi
+          rosdep update --rosdistro jazzy
+          rosdep install --from-paths ros2 external/openamrobot-interfaces/ros2 --ignore-src --rosdistro jazzy -y
+
+      - name: Build
+        run: |
+          set -eo pipefail
+          source /opt/ros/jazzy/setup.bash
+          colcon build --base-paths ros2 external/openamrobot-interfaces/ros2 --event-handlers console_cohesion+
+
+      - name: Test
+        run: |
+          set -eo pipefail
+          source /opt/ros/jazzy/setup.bash
+          source install/setup.bash
+          colcon test --base-paths ros2 external/openamrobot-interfaces/ros2 \
+            --packages-select openamrobot_ai_recorder openamrobot_policy_runner \
+            --event-handlers console_cohesion+
+          colcon test-result --verbose
+          python3 -m pytest tests -v
+
+  python:
+    name: quality/python
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e "python[test]"
+
+      - name: Test
+        run: pytest python/tests -v
