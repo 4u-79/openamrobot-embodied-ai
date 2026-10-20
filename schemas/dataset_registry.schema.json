@@ -48,9 +48,9 @@
       "$ref": "#/$defs/commit_sha"
     },
     "bom_issue": {
-      "description": "Issue that records the hardware build, as <owner>/<repository>#<number>. BOM values are not stored here.",
+      "description": "Canonical BOM issue number used for the hardware build, for example 7.10. BOM values are not stored here.",
       "type": "string",
-      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+$"
+      "pattern": "^[0-9]+\\.[0-9]+$"
     },
     "capture_date": {
       "description": "Capture date, YYYY-MM-DD.",
