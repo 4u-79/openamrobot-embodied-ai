@@ -16,12 +16,16 @@ Current maturity level: Experimental.
 
 ## Owners
 
-| Area | Owner |
-| --- | --- |
-| C10 dataset QA | Satya |
-| C11 ACT baseline | owner: to be assigned by Alex |
-| C14 evaluation | owner: to be assigned by Alex |
-| Repository lead | owner: to be assigned by Alex |
+Team: Embodied AI and Data (Division B).
+
+| Area | Owner | Reviewer |
+| --- | --- | --- |
+| Repository lead and code owner | Satya Srinivas Anandh (@SatyaA27) | Mohamed Sayed (@panthera-momagdii) |
+| C10 dataset QA | Satya Srinivas Anandh | Mohamed Sayed |
+| C11 ACT baseline | Marcus Andrei Guinto (@4u-79) | Mohamed Sayed |
+| C14 evaluation | owner: to be assigned by Alex | Mohamed Sayed |
+
+Code owners are the lead and Mohamed, so a pull request by the lead can still be approved. One approval from either is enough.
 
 ## Layout
 
